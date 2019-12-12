@@ -62,6 +62,6 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
     }
 
     public void process(WatchedEvent watchedEvent) {
-
+        dm.process(watchedEvent);
     }
 }
