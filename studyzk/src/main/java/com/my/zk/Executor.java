@@ -7,13 +7,15 @@ import org.apache.zookeeper.ZooKeeper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 /**
  * ZooKeeper官方文档第一个demo
+ * 维护ZooKeeper连接（主线程以及执行逻辑）
  * @author shang
  */
 public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListener {
@@ -23,31 +25,12 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
     private ZooKeeper zk;
     private DataMonitor dm;
     private Process child;
-    public static void main(String[] args) {
-        Properties properties = new Properties();
-        InputStream in = Executor.class.getClassLoader().getResourceAsStream("zkServer.properties");
-        try {
-            properties.load(in);
-        } catch (IOException e) {
-            log.error("缺少配置文件");
-        }
-        String hostPort = properties.getProperty("hostPort");
-        String zNode = properties.getProperty("zNode");
-        String filename = properties.getProperty("filename");
-        String[] exec = new String[args.length];
-        try {
-            new Executor(hostPort, zNode, filename, exec).run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public Executor(String hostPort, String zNode, String filename,
                     String[] exec) throws KeeperException, IOException {
         this.filename = filename;
         this.exec = exec;
         //zk超时时间调大点，原来用的3000连接失败无法走进process方法，调成10000后watch到连接后走进process
-        zk = new ZooKeeper(hostPort, 10000, this);
+        zk = new ZooKeeper(hostPort, 30000, this);
         dm = new DataMonitor(zk, zNode, null, this);
     }
 
@@ -65,6 +48,7 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
     public void exists(byte[] data) {
         if(data == null){
             if(child != null){
+                log.error("killing process");
                 child.destroy();
                 try{
                     child.waitFor();
@@ -75,6 +59,7 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
             child = null;
         }else{
             if(child != null){
+                log.error("stopping Child");
                 child.destroy();
                 try{
                     child.waitFor();
@@ -89,9 +74,20 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                log.error("Starting child");
+                //Runtime.getRuntime().exec()运行脚本
+                child = Runtime.getRuntime().exec(exec);
+                new StreamWriter(child.getInputStream(), System.out);
+                new StreamWriter(child.getErrorStream(), System.err);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
+    /**
+     * 以响应ZooKeeper连接永久消失。
+     */
     public void closing(int rc) {
         synchronized (this){
             notifyAll();
@@ -99,14 +95,15 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
     }
 
     public void process(WatchedEvent watchedEvent) {
+        log.info("process");
         dm.process(watchedEvent);
     }
 
-    static class SteamWriter extends Thread{
+    static class StreamWriter extends Thread{
         OutputStream os;
         InputStream is;
 
-        SteamWriter(InputStream is, OutputStream os){
+        StreamWriter(InputStream is, OutputStream os){
             this.is = is;
             this.os = os;
             start();
@@ -123,6 +120,25 @@ public class Executor implements Watcher ,Runnable,DataMonitor.DataMonitorListen
             }catch (IOException e){
 
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        Properties properties = new Properties();
+        InputStream in = Executor.class.getClassLoader().getResourceAsStream("zkServer.properties");
+        try {
+            properties.load(in);
+        } catch (IOException e) {
+            log.error("缺少配置文件");
+        }
+        String hostPort = properties.getProperty("hostPort");
+        String zNode = properties.getProperty("zNode");
+        String filename = properties.getProperty("filename");
+        String[] exec = new String[]{"calc"};
+        try {
+            new Executor(hostPort, zNode, filename, exec).run();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

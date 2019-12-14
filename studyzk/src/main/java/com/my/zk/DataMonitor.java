@@ -6,21 +6,22 @@ import org.apache.zookeeper.data.Stat;
 import java.util.Arrays;
 
 /**
+ * 监视ZooKeeper树中的数据
  * @author shang
  */
 public class DataMonitor implements Watcher, AsyncCallback.StatCallback {
     private ZooKeeper zk;
     private String zNode;
     private Watcher watcher;
-    private Executor executor;
-    DataMonitorListener listener;
+    //简单地将这些事件转发到DataMonitor来决定如何处理它们
+    private DataMonitorListener listener;
     private byte[] prevData;
     public boolean dead;
-    public DataMonitor(ZooKeeper zk, String zNode, Watcher watcher, Executor executor) {
+    public DataMonitor(ZooKeeper zk, String zNode, Watcher watcher, DataMonitorListener listener) {
         this.zk = zk;
         this.zNode = zNode;
         this.watcher = watcher;
-        this.executor = executor;
+        this.listener = listener;
         zk.exists(zNode,true,this,null);
     }
 
@@ -82,8 +83,17 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback {
             } catch (InterruptedException e) {
                 return;
             }
+        }else{
+            try {
+                //CreateMode.PERSISTENT持久化节点
+                zk.create(this.zNode,"this is zNode".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+            } catch (KeeperException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        boolean isTrue = (b == null && b!= prevData) || (b!=null && !Arrays.equals(prevData,b));
+        boolean isTrue = ((b == null && b!= prevData) || (b!=null && !Arrays.equals(prevData,b)));
         if(isTrue){
             listener.exists(b);
             prevData = b;
