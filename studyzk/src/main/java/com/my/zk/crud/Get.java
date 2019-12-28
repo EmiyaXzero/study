@@ -92,6 +92,7 @@ public class Get implements Watcher {
         countDownLatch.await();
         //zk.create(path,"test".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
         log.error("data:"+zk.getData(path,true,stat));
+        //Version= -1的时候不会进行版本校验
         zk.setData(path,"test111".getBytes(),-1);
         Thread.sleep(Integer.MAX_VALUE);
     }
