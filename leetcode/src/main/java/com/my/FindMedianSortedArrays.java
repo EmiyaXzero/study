@@ -114,6 +114,85 @@ public class FindMedianSortedArrays {
     }
 
     public static void main(String[] args) {
-        System.out.println(findMedianSortedArrays(new int[]{1,3}, new int[]{2,4,5,6}));
+        System.out.println(findMedianSortedArrays2(new int[]{1,2}, new int[]{-1,3}));
     }
+
+    /**
+     * 二分法 将nums1 分成i,j两份，nums2分成m,n两份当i+m = j+n的时候，且max(i,m)值小于min(j,n)的时候
+     * 就能取到中位数
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public static double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        int count = len1+len2;
+        boolean isJi = count%2==1;
+        if(len1 == 0 && len2 == 0){
+            return 0;
+        }else if(len1 == 0){
+            if(isJi){
+                return nums2[count/2];
+            }else {
+                return (nums2[count/2]+nums2[count/2-1])*1.0/2;
+            }
+        }else if(len2 ==0 ){
+            nums2 = nums1;
+            if(isJi){
+                return nums2[count/2];
+            }else {
+                return (nums2[count/2]+nums2[count/2-1])*1.0/2;
+            }
+        }
+        if(len1 > len2){
+            int[] temp = nums1;
+            nums1 = nums2;
+            nums2 = temp;
+            len1 = nums1.length;
+            len2 = nums2.length;
+        }
+
+        int start = 0;
+        int end = len1;
+        //左边个数
+        int leftPart = 0;
+        int rightPart = 0;
+        int halfLen = (count+1)/2;
+        while(start <= end){
+            leftPart = (start+end)/2;
+            rightPart = halfLen - leftPart;
+            if(leftPart<end && nums2[rightPart-1]>nums1[leftPart]){
+                start = leftPart+1;
+            }else if(leftPart>start && nums1[leftPart-1]>nums2[rightPart]){
+                end = leftPart-1;
+            }else {
+                int maxLeft = 0;
+                if(leftPart == 0 ){
+                    //第一个数组没有左边
+                    maxLeft = nums2[rightPart-1];
+                }else if(rightPart == 0){
+                    //第二个数组没有左边
+                    maxLeft = nums1[leftPart-1];
+                }else {
+                    maxLeft = Math.max(nums1[leftPart-1],nums2[rightPart-1]);
+                }
+                if(count%2 == 1){
+                    return maxLeft;
+                }
+                int minRight = 0;
+                if(leftPart == len1){
+                    minRight = nums2[rightPart];
+                }else if(rightPart == len2 ){
+                    minRight = nums1[leftPart];
+                }else {
+                    minRight = Math.min(nums1[leftPart],nums2[rightPart]);
+                }
+                return (minRight+maxLeft)*1.0/2;
+            }
+        }
+        return 0.0;
+    }
+
+
 }
