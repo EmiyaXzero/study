@@ -15,7 +15,7 @@ public class RemoveNthFromEnd {
     }
 
     public static ListNode removeNthFromEnd(ListNode head, int n) {
-        List<ListNode> nodes = new ArrayList<>();
+        List<ListNode> nodes = new ArrayList<ListNode>();
         while (head != null){
             //将每个节点塞到List
             nodes.add(head);
