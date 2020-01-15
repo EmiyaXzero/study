@@ -1,13 +1,13 @@
 package com.my.concurrency;
 
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author shanghang
  */
+@Slf4j
 public class ThreadTest {
-    private static Logger logger = Logger.getLogger(ThreadTest.class);
     /**
      *system.out.println是带锁的
      * @param args
@@ -26,7 +26,7 @@ public class ThreadTest {
             public void run() {
                 for (int i = 0; i < 10; i++) {
                     //system.out.println是带锁的
-                    logger.error("a");
+                    log.error("a");
                 }
             }
         });
@@ -34,7 +34,7 @@ public class ThreadTest {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
-                    logger.error("t2");
+                    log.error("t2");
                 }
             }
         });
