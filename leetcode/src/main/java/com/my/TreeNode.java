@@ -1,15 +1,13 @@
 package com.my;
 
 /**
- * @author shang
- * @title: TreeNode
- * @projectName study
- * @description: 二叉树
- * @date 2020/1/15-10:30
- */
+ * @Author: shanghang
+ * @Project:study
+ * @Date: 2020/1/15 20:41
+ **/
 public class TreeNode {
-     int val;
-     TreeNode left;
-     TreeNode right;
-     TreeNode(int x) { val = x; }
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
 }
