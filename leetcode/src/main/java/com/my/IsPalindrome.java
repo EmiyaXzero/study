@@ -1,5 +1,8 @@
 package com.my;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 判断一个整数是否是回文数
  * @author shanghang
@@ -68,4 +71,25 @@ public class IsPalindrome {
         System.out.println(0 % 10);
         //isPalindrome2(1001);
     }
+
+
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> list = new ArrayList<Integer>();
+        while (head!=null){
+            list.add(head.val);
+            head = head.next;
+        }
+        int start = 0;
+        int end = list.size()-1;
+        while (start<end){
+            if(!list.get(start).equals(list.get(end))){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+
 }
