@@ -2,6 +2,7 @@ package com.my;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * @author shang
@@ -30,28 +31,21 @@ public class CopyRandomList {
         if(head == null){
             return head;
         }
-        HashMap<Node,Node> head1 = new HashMap<>(16);
-        HashMap<Node,Node> head2 = new HashMap<>(16);
-        Node result = new Node(head.val,null,null);
-        Node temp = result;
-        head1.put(head.random,result);
-        head2.put(result,head.random);
-        head = head.next;
-        while (head !=null){
-            Node node = new Node(head.val,null,null);
-            temp.next = node;
-            temp = temp.next;
-            head1.put(head.random,temp.next);
-            head2.put(temp.next,head.random);
-            if(head1.containsKey(head)){
-                head2.put(head1.get(head),temp);
-            }
+        // map方法，空间复杂度O(n)
+        Node node = head;
+        // 使用hash表存储旧结点和新结点的映射
+        Map<Node,Node> map = new HashMap<>();
+        while(node != null){
+            Node clone = new Node(node.val,null,null);
+            map.put(node,clone);
+            node = node.next;
         }
-        Node temp2 = result;
-        while (temp2 !=null){
-            temp2.random = head2.get(temp2);
+        node = head;
+        while(node != null){
+            map.get(node).next = map.get(node.next);
+            map.get(node).random = map.get(node.random);
+            node = node.next;
         }
-
-        return result;
+        return map.get(head);
     }
 }
