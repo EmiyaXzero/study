@@ -5,6 +5,11 @@ package com.my.interfaces;
  * @author shanghang
  */
 public interface MyMap<K,V> {
+
+    default int getInt(){
+        return 1;
+    }
+
     /**
      * set方法
      * @param K
