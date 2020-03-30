@@ -34,6 +34,22 @@ public class Rotate {
         }
     }
 
+    public void rotate(int[][] matrix) {
+        int n = matrix[0].length;
+        int [][] temp = new int[n][n];
+        for (int i = 0;i<n;i++){
+            for (int j = 0 ; j<n;j++){
+                temp[i][j] = matrix[i][j];
+            }
+        }
+
+        for(int i = 0 ;i<n;i++){
+            for (int j = n-1 ;j>=0 ;j--){
+                matrix[i][n-1-j] = temp[j][i];
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         rotate(new int[]{1,2,3,4,5,6,7},3);
