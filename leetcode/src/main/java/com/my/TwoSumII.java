@@ -1,5 +1,11 @@
 package com.my;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  *
  * @author shanghang
@@ -33,6 +39,7 @@ public class TwoSumII {
     }
 
     public static void main(String[] args) {
-        twoSum(new int[]{2,7,11,15},9);
+        LinkedList a = new LinkedList();
+        a.iterator();
     }
 }

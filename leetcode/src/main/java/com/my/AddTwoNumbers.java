@@ -14,7 +14,7 @@ public class AddTwoNumbers {
      * @param l2
      * @return
      */
-    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    public static ListNode addTwoNumbers3(ListNode l1, ListNode l2) {
         List<Integer> a1 = new ArrayList<Integer>();
         List<Integer> a2 = new ArrayList<Integer>();
         while (null != l1){
@@ -157,7 +157,7 @@ public class AddTwoNumbers {
         ListNode a2 = new ListNode(9);
         a2.next = new ListNode(9);
       //  a2.next.next = new ListNode(4);
-        ListNode listNode = addTwoNumbers(a1,a2);
+        ListNode listNode = addTwoNumbers3(a1,a2);
         while (null != listNode.next){
             System.out.printf(""+ listNode.val);
             listNode = listNode.next;
@@ -189,5 +189,35 @@ public class AddTwoNumbers {
             curr.next = new ListNode(carry);
         }
         return dummyHead.next;
+    }
+
+    //递归算法
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        return sum(l1,l2,0);
+    }
+
+    /**
+     *
+     * @param l1   第一个链表
+     * @param l2    第二个链表
+     * @param array     进位
+     * @return
+     */
+    public ListNode sum(ListNode l1,ListNode l2,int array){
+        int currentSum = l1.val + l2.val+array;
+        ListNode currentNode = new ListNode(currentSum%10);
+        if(l1.next == null && l2.next == null){
+            //表示到顶了
+            if(currentSum/10>0){
+                currentNode.next = new ListNode(currentSum/10);
+            }
+            return currentNode;
+        }
+        //计算下一节点
+        l1 = l1.next == null?new ListNode(0):l1.next;
+        l2 = l2.next == null?new ListNode(0):l2.next;
+
+        currentNode.next = sum(l1,l2,currentSum/10);
+        return currentNode;
     }
 }

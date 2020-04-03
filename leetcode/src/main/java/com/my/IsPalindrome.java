@@ -74,6 +74,7 @@ public class IsPalindrome {
 
 
     public boolean isPalindrome(ListNode head) {
+        //扩容拷贝占时间
         List<Integer> list = new ArrayList<Integer>();
         while (head!=null){
             list.add(head.val);
@@ -91,5 +92,27 @@ public class IsPalindrome {
         return true;
     }
 
+    public boolean isPalindrome2(ListNode head) {
+        if(head == null || head.next == null){
+            return false;
+        }
+        ListNode first = head;
+        ListNode b = new ListNode(first.val);
+        first = first.next;
+        //链表反转
+        while (first!=null){
+            ListNode temp = new ListNode(first.val);
+            temp.next = b;
+            b = temp;
+            first = first.next;
+        }
+
+        while (head!=null){
+            if(head.val != b.val){return false;}
+            head = head.next;
+            b = b.next;
+        }
+        return true;
+    }
 
 }
