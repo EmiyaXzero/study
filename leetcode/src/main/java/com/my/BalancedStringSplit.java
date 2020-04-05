@@ -5,7 +5,7 @@ package com.my;
  *
  * @author shang
  */
-public class BalancedStringSplit {
+public class BalancedStringSplit{
     /**
      * 循环从左到右保持一个平衡变量，当它得到一个L增加1，否则减少1。
      * 当平衡变量为0时，我们将答案增加1。
