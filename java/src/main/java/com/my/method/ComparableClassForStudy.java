@@ -42,7 +42,7 @@ public class ComparableClassForStudy{
         }
     }
 
-    public static class C implements Comparable<C>, Serializable,Cloneable {
+    public static class C implements Serializable ,Comparable<C>,Cloneable {
         @Override
         public int compareTo(C o) {
             return 0;
