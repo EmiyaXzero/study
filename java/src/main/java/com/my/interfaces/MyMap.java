@@ -6,9 +6,6 @@ package com.my.interfaces;
  */
 public interface MyMap<K,V> {
 
-    default int getInt(){
-        return 1;
-    }
 
     /**
      * set方法
