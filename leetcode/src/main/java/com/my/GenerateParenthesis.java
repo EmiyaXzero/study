@@ -36,4 +36,40 @@ public class GenerateParenthesis {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+    public List<String> generateParenthesis2(int n) {
+        List<String> result = new ArrayList<>();
+        String s = "";
+        generate1(result,s,n,0,0);
+        return result;
+    }
+
+    public void generate1(List<String> result , String s ,int n ,int left ,int right){
+        if(s.length() == 2*n){
+            result.add(s);
+            return;
+        }
+        if(left<n) {
+            generate1(result, s + "(", n, left + 1, right);
+        }
+        if(left>right){
+            generate1(result,s+")",n,left,right+1);
+        }
+
+    }
+
+
+
+
+
+
 }
