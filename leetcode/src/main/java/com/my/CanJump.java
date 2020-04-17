@@ -42,12 +42,9 @@ public class CanJump {
 
     public boolean canJump2(int[] nums) {
         for(int i=0 ; i < nums.length ;i++){
-            for (int j = 1;i<=nums[j] ;j++){
+            if(i<=max){
                 max = Math.max(nums[i]+i,max);
-                if(i+j+nums[i+j] < max){
-                    continue;
-                }
-                if(i+j+nums[i+j] >= nums.length-1){
+                if(i+nums[i] >= nums.length-1){
                     return true;
                 }
             }
