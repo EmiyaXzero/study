@@ -73,8 +73,8 @@ public class GetTriggerTime {
             a +=increase[i][0];
             b +=increase[i][1];
             c +=increase[i][2];
+            boolean flag = false;
             for(int j = max ;j<requirements.length;j++){
-                boolean flag = false;
                 if(result[map.get(requirements[j])] == -1){
                     if(a+b+c< (requirements[j][0]+requirements[j][1]+requirements[j][2])){
                         break;
