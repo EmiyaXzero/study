@@ -40,7 +40,8 @@ public class MaxDistance {
                 int tempY = curY+dy[i];
 
                 if(tempX>=0 && tempX<=grid.length-1 && tempY>=0 && tempY<= grid[0].length-1 && visted[tempX][tempY] == 0){
-                    visted[curIdx[0]][curIdx[1]] = 1;
+                    //只有在矩阵中有效，同时四周没有遍历过，这个时候不用考虑周围是否为0，因为一开始将所有岛屿都置为访问过所以不会再访问到岛屿
+                    visted[tempX][tempY] = 1;
                     grid[tempX][tempY] = grid[curX][curY]+1;
                     max = Math.max(max, grid[tempX][tempY]);
                     queue.add(new int[]{tempX,tempY});
