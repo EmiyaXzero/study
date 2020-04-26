@@ -1,5 +1,7 @@
 package com.my;
 
+import java.util.*;
+
 /**
  *  对角线遍历
  *  分左上角和右下角
@@ -94,7 +96,54 @@ public class FindDiagonalOrder {
         }
         return result;
     }
+
+    /**
+     * 对角线遍历 II
+     * @param nums
+     * @return
+     */
+    public int[] findDiagonalOrder(List<List<Integer>> nums) {
+        List<Integer> result = new ArrayList<>();
+        //stacks保存每个i+j对应的栈，每个i+j的栈都是最后一个元素先入栈，第一个元素最后进栈
+        Map<Integer, Deque<Integer>> stacks = new HashMap<>();
+        int maxKey = Integer.MIN_VALUE;
+        for (int i = 0;i< nums.size() ;i++){
+            for (int j = 0;j<nums.get(i).size();j++){
+                maxKey = Math.max(i+j,maxKey);
+                if (stacks.containsKey(i+j)){
+                    stacks.get(i+j).addLast(nums.get(i).get(j));
+                }else {
+                    Deque<Integer> deque = new ArrayDeque<>();
+                    deque.addLast(nums.get(i).get(j));
+                    stacks.put(i+j,deque);
+                }
+            }
+        }
+        //确保从头到尾
+        for(int i=0;i<=maxKey ;i++){
+            Deque<Integer> deque = stacks.get(i);
+            while (!deque.isEmpty()){
+                result.add(deque.pollLast());
+            }
+        }
+        return result.stream().mapToInt(Integer::valueOf).toArray();
+    }
     public static void main(String[] args) {
-        findDiagonalOrder(new int[][]{{1,2,3,4,5,6,7,8,9,10},{11,12,13,14,15,16,17,18,19,20}});
+        FindDiagonalOrder findDiagonalOrder = new FindDiagonalOrder();
+       List<List<Integer>> all = new ArrayList<>();
+        List<Integer> a1 = new ArrayList<>();
+        a1.add(1);
+        a1.add(2);
+        a1.add(3);
+        all.add(a1);
+        a1 = new ArrayList<>();
+        a1.add(4);
+        all.add(a1);
+        a1 = new ArrayList<>();
+        a1.add(7);
+        a1.add(8);
+        a1.add(9);
+        all.add(a1);
+        findDiagonalOrder.findDiagonalOrder(all);
     }
 }
