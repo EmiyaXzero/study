@@ -45,31 +45,38 @@ public class Search {
         return result;
     }
     public int search2(int[] nums, int target) {
-        int left =0;
-        int right = nums.length-1;
-        int mid = left+(right-left)/2;
-        while (left<=right){
-            if (nums[mid] == target){
+        //二分法
+        int left = 0 ,right = nums.length-1;
+        //需要判断是否存在旋转
+        while(left<=right){
+            int mid = left + (right-left)/2;
+            if(nums[mid] == target){
                 return mid;
             }
             if(nums[left]<=nums[mid]){
-                //存在旋转，得看数字是不是这个区间
-                if(target>=nums[left] && target<nums[mid]){
-                    //在mid左边
+                //左半边有序
+                //  if(nums[mid]< target && nums[right]>=target){
+                //      left = mid+1;
+                //  }else{
+                //      right = mid-1;
+                //  }
+                if(nums[mid]>target && target>= nums[left]){
+                    //目标值在有序的半边，将搜索范围置为左边
+                    //如果nums[mid]>target必须也要满足target是比nums[left]小才能right = mid-1
                     right = mid-1;
-                }else {
-                    //在mid右边
+                }else{
                     left = mid+1;
                 }
-            }else {
-                if(target>nums[mid] && target<=nums[right]){
-                    //mid右边
+            }else{
+                //右半边有序
+                //存在旋转
+                if(nums[mid]<target && nums[right]>=target){
+                    //目标值在有序的半边，将搜索范围置为右边
                     left = mid+1;
-                }else {
+                }else{
                     right = mid-1;
                 }
             }
-            mid = right - (right+left)/2;
         }
         return -1;
     }
