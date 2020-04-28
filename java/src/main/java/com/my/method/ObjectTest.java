@@ -11,22 +11,22 @@ import java.util.List;
  * @date 2020/4/27-20:27
  */
 public class ObjectTest {
+    class Jojo{
+
+    }
+
+    static class Pojo{
+        int a;
+        static int b;
+        Pojo(int a){
+            this.a = a;
+        }
+    }
+
 
     public static void main(String[] args) {
-        List<Integer> arryas = new ArrayList<>();
-        arryas.add(1);
-        arryas.add(2);
-        System.out.println(arryas.hashCode());
-        doArray(arryas);
-        System.out.println(arryas.get(1));
-        System.out.println(arryas.get(2));
-        float ff = 1.1f;
+        ObjectTest objectTest = new ObjectTest();
+        final Pojo p = new Pojo(1);
+        Jojo jojo = objectTest.new Jojo();
     }
-
-    public static void doArray(List<Integer> a){
-       a  = new ArrayList<>();
-       a.add(1);
-        System.out.println(a.hashCode());
-    }
-
 }
