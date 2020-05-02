@@ -1,6 +1,7 @@
 package com.my.method;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * @Author: shanghang
@@ -12,6 +13,7 @@ public class HashMapTest {
         HashMap test1 = new HashMap(7);
         HashMap test2 = new HashMap(1);
         test1.size();
+        Hashtable a = new Hashtable();
         test1.put(null,null);
     }
 }
