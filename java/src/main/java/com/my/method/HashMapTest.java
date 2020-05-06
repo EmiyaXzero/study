@@ -1,9 +1,6 @@
 package com.my.method;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * @Author: shanghang
@@ -17,11 +14,20 @@ public class HashMapTest {
         test1.size();
         Hashtable a = new Hashtable();
         test1.put(null,null);
-        PriorityQueue priorityQueue = new PriorityQueue(Comparator.naturalOrder());
+        PriorityQueue priorityQueue = new PriorityQueue(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1-o2;
+            }
+        });
         priorityQueue.add(1);
-        priorityQueue.add(3);
         priorityQueue.add(2);
-        priorityQueue.remove(2);
-        priorityQueue.remove((Integer)2);
+        priorityQueue.add(3);
+        priorityQueue.add(5);
+        priorityQueue.add(4);
+        Iterator iterator = priorityQueue.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
     }
 }
