@@ -28,4 +28,9 @@ public class LowestCommonAncestorNew {
         }
         return null;
     }
+
+    public static void main(String[] args) {
+        String a = "?";
+        System.out.println(a.indexOf("?"));
+    }
 }
