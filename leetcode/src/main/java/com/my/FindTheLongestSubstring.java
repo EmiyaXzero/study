@@ -130,7 +130,7 @@ public class FindTheLongestSubstring {
                 default:
                     break;
             }
-            //因为奇偶是连续的
+            //获取两个同样状态值的差取最大，因为奇数-奇数=偶数  偶数-偶数=偶数，只需要取相同状态值的差就能得到偶数
             if(pos[status] >=0){
                 ans = Math.max(ans,i+1-pos[status]);
             }else {
