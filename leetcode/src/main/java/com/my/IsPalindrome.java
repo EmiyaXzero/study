@@ -68,8 +68,7 @@ public class IsPalindrome {
     }
 
     public static void main(String[] args) {
-        System.out.println(0 % 10);
-        //isPalindrome2(1001);
+        isPalindromes("A man, a plan, a canal: Panama");
     }
 
 
@@ -113,6 +112,22 @@ public class IsPalindrome {
             b = b.next;
         }
         return true;
+    }
+
+    public static boolean isPalindromes(String s) {
+        s = s.toLowerCase();
+        int len = s.length()-1;
+        StringBuffer sb = new StringBuffer();
+        StringBuffer ss = new StringBuffer();
+        for (int i = 0; i <s.length() ; i++) {
+            if(s.charAt(i)>='a' && s.charAt(i)<='z' || s.charAt(i)>='0' && s.charAt(i)<='9'){
+                sb.append(s.charAt(i));
+            }
+            if(s.charAt(len-i)>='a' && s.charAt(len-i)<='z' || s.charAt(len-i)>='0' && s.charAt(len-i)<='9'){
+                ss.append(s.charAt(len-i));
+            }
+        }
+        return sb.toString().equals(ss.toString());
     }
 
 }
