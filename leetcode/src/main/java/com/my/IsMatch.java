@@ -79,7 +79,7 @@ public class IsMatch {
 
     public static void main(String[] args) {
         System.out.println(isMatch2("aaa",
-                "a*aaa"));
+                "*aaa"));
     }
 
     /**
@@ -125,7 +125,29 @@ public class IsMatch {
                 return first_match && isMatch6(text.substring(1), pattern.substring(1));
             }
         }
-
+    public static boolean isMatch3(String s, String pattern) {
+        int m = s.length();
+        int n = pattern.length();
+        boolean[][] dp = new boolean[m+1][n+1];
+        dp[0][0] = true;
+        for (int i = 1;i<=n;i++){
+            if (pattern.charAt(i-1) == '*'){
+                dp[0][i] = true;
+            }else {
+                break;
+            }
+        }
+        for (int i = 1;i<=m;i++){
+            for (int j = 1;j<=n;j++){
+                if (pattern.charAt(j-1) =='*' ){
+                    dp[i][j] = dp[i][j-1] || dp[i-1][j];
+                }else if(pattern.charAt(j-1) == '?' || pattern.charAt(j-1) == s.charAt(i-1)){
+                    dp[i][j] = dp[i-1][j-1];
+                }
+            }
+        }
+        return dp[m][n];
+    }
 
 
 }
