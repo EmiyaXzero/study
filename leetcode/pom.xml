@@ -7,6 +7,51 @@
     <groupId>org.example</groupId>
     <artifactId>leetcode</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <repositories>
+        <repository>
+            <id>ali-repo</id>
+            <name>ali repository</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>zj-crm-repo</id>
+            <name>zj crm personal repository</name>
+            <url>http://nexus.zj.chinamobile.com:8081/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>proxy-adcloud</id>
+            <name>proxy adcloud</name>
+            <url>http://nexus.zj.chinamobile.com:8081/nexus/content/repositories/adcloud/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>NewCrmRepository</id>
+            <name>NewCrmRepository</name>
+            <url>http://20.26.33.133:10081/nexus/content/repositories/NewCrmRepository</url>
+        </repository>
+        <repository>
+            <id>fast-osd-release</id>
+            <name>osd-release</name>
+            <url>http://nexus.zj.chinamobile.com:8081/nexus/content/repositories/fast-release/</url>
+        </repository>
+    </repositories>
 
-
+    <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 </project>
