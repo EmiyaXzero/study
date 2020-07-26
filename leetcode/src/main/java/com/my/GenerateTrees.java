@@ -33,6 +33,7 @@ public class GenerateTrees {
             //以i当根节点
             List<TreeNode> leftTreeNode = getTree(start,i-1);
             List<TreeNode> rightTreeNode = getTree(i+1,end);
+            //将左右节点依次遍历赛到当前节点下面
             for (TreeNode leftNode : leftTreeNode) {
                for (TreeNode rightNode : rightTreeNode){
                    TreeNode treeNode = new TreeNode(i);
