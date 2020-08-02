@@ -1,7 +1,9 @@
 package com.my;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author shang
@@ -50,19 +52,76 @@ public class Flatten {
     }
 
     public static void main(String[] args) {
-        Node node = new Node();
-        node.val = 1;
-        Node node1 = new Node();
-        node1.val = 2;
-        node.next = node1;
-        node1.prev = node;
-        Node node2 = new Node();
-        node2.val = 3;
-        node1.next = node2;
-        node2.prev = node1;
-        Node nodeChild = new Node();
-        nodeChild.val = 4;
-        node1.child = nodeChild;
-        flatten(node);
+        TreeNode treeNode = stringToTreeNode("[1,null,2,3]");
+        new Flatten().flatten(treeNode);
+    }
+
+    public static TreeNode stringToTreeNode(String input) {
+        input = input.trim();
+        input = input.substring(1, input.length() - 1);
+        if (input.length() == 0) {
+            return null;
+        }
+
+        String[] parts = input.split(",");
+        String item = parts[0];
+        TreeNode root = new TreeNode(Integer.parseInt(item));
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        nodeQueue.add(root);
+
+        int index = 1;
+        while(!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.remove();
+
+            if (index == parts.length) {
+                break;
+            }
+
+            item = parts[index++];
+            item = item.trim();
+            if (!item.equals("null")) {
+                int leftNumber = Integer.parseInt(item);
+                node.left = new TreeNode(leftNumber);
+                nodeQueue.add(node.left);
+            }
+
+            if (index == parts.length) {
+                break;
+            }
+
+            item = parts[index++];
+            item = item.trim();
+            if (!item.equals("null")) {
+                int rightNumber = Integer.parseInt(item);
+                node.right = new TreeNode(rightNumber);
+                nodeQueue.add(node.right);
+            }
+        }
+        return root;
+    }
+
+    public void flatten(TreeNode root) {
+        if(root == null){
+            return;
+        }
+        TreeNode left = root.left;
+        flatten(left);
+        if(left == null){
+            flatten(root.right);
+            return;
+        }
+        flatten(root.right);
+        TreeNode right = doIt(left,root.right);
+        root.left = null;
+        root.right = right;
+    }
+
+    private TreeNode doIt(TreeNode left, TreeNode right) {
+        TreeNode tempLeft = left;
+        while (tempLeft.right != null){
+            tempLeft =tempLeft.right;
+        }
+        tempLeft.right = right;
+        return  left;
     }
 }
