@@ -53,6 +53,9 @@ public class RestoreIpAddresses {
     }
 
     public static void main(String[] args) {
-        new RestoreIpAddresses().restoreIpAddresses("25525511135");
+        int j = 10;
+        for (int i = 0;i<10 ;i++){
+            System.out.println(i);
+        }
     }
 }
