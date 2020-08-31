@@ -23,10 +23,10 @@ public class CanVisitAllRooms {
         int count = 1;
         Deque<Integer> deque = new ArrayDeque<>();
         for (int i = 0;i<rooms.get(0).size();i++){
-            deque.offer(rooms.get(0).get(i));
+            deque.add(rooms.get(0).get(i));
         }
         while (!deque.isEmpty()){
-            int idx = deque.poll();
+            int idx = deque.removeFirst();
             if(visited[idx]){
                 continue;
             }else {
@@ -34,7 +34,7 @@ public class CanVisitAllRooms {
                 count++;
                 List<Integer> integers = rooms.get(idx);
                 for (int i : integers){
-                    deque.offer(i);
+                    deque.add(i);
                 }
             }
         }
