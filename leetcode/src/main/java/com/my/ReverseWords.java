@@ -28,7 +28,7 @@ public class ReverseWords {
     }
 
     public static void main(String[] args) {
-        System.out.println(reverseWordsIII("Let's take LeetCode contest"));
+        System.out.println(reverseWordsIII3("Let's take LeetCode contest"));
     }
 
     /**
@@ -106,6 +106,8 @@ public class ReverseWords {
             temp = chars[begin];
             chars[begin] = chars[end];
             chars[end] = temp;
+            begin++;
+            end--;
         }
     }
 
