@@ -54,16 +54,15 @@ public class Exist {
     public boolean exist(char[][] board, String word) {
         maxI = board.length;
         maxJ = board[0].length;
-        Set<POJO> used = new HashSet<>();
-         for (int i = 0;i<board.length;i++){
+        boolean[][] used = new boolean[maxI][maxJ];
+        for (int i = 0;i<board.length;i++){
              for (int j = 0;j<board[i].length;j++){
                  if(board[i][j] == word.charAt(0)){
-                     POJO temp = new POJO(i,j);
-                     used.add(temp);
+                     used[i][j] = true;
                      if(dfs(i,j,1,word,board,used)){
                          return true;
                      }
-                     used.remove(temp);
+                     used[i][j] = false;
                  }
              }
          }
@@ -93,6 +92,35 @@ public class Exist {
                             return true;
                         }
                         used.remove(temp);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(int x, int y, int idx,String word ,char[][] board ,boolean[][] used) {
+        if(idx == word.length()){
+            return true;
+        }
+        for (int i = -1 ;i<=1;i++){
+            for (int j = -1;j<=1;j++){
+
+                if(Math.abs(i) == Math.abs(j) ){
+                    continue;
+                }
+                int curX = x+i;
+                int curY = y+j;
+                if( curX>=0 && curX<maxI && curY>=0 && curY<maxJ){
+                    if(used[curX][curY]){
+                        continue;
+                    }
+                    if(board[curX][curY] == word.charAt(idx)){
+                        used[curX][curY] = true;
+                        if(dfs(curX,curY,idx+1,word,board,used)){
+                            return true;
+                        }
+                        used[curX][curY] = false;
                     }
                 }
             }
