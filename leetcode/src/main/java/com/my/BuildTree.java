@@ -41,4 +41,35 @@ public class BuildTree {
         BuildTree buildTree = new BuildTree();
         buildTree.buildTree(new int[]{3,9,20,15,7},new int[]{9,3,15,20,7});
     }
+
+    /**
+     * 中序和后序
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
+        return helper(inorder,postorder,postorder.length-1,0,inorder.length-1);
+    }
+
+    private TreeNode helper(int[] inorder, int[] postorder, int postEnd, int inStart, int inEnd) {
+        if(inStart>inEnd){
+            return null;
+        }
+        int currentVal = postorder[postEnd];
+        int inIndex = 0;
+        TreeNode currentTree = new TreeNode(currentVal);
+        for(int i = inStart ;i<=inEnd;i++){
+            if(inorder[i] == postorder[postEnd]){
+                inIndex = i;
+            }
+        }
+        //postEnd取减去右节点的数量
+        TreeNode currentLeft = helper(inorder, postorder, postEnd - (inEnd- inIndex) - 1, inStart, inIndex-1);
+        TreeNode currentRight = helper(inorder, postorder, postEnd -1, inIndex+1, inEnd);
+
+        currentTree.left = currentLeft;
+        currentTree.right = currentRight;
+        return currentTree;
+    }
 }
