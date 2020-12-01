@@ -50,12 +50,13 @@ public class ThreadDemo {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ThreadB a1 =  new ThreadDemo().new ThreadB("张三");
         ThreadB a2 =  new ThreadDemo().new ThreadB("李四");
         Thread thread1 = new Thread(a1);
         Thread thread2 = new Thread(a2);
         thread1.start();
+        thread1.join(5000);
         thread2.start();
     }
 }

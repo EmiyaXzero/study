@@ -1,5 +1,7 @@
 package com.my.demo;
 
+import lombok.SneakyThrows;
+
 /**
  * @author shanghang
  * @title: ThreadDemo
@@ -15,8 +17,11 @@ public class ThreadDemo {
             return this.i;
         }
 
-        public int doIt(int y ){
-            return i-y;
+        public synchronized int doIt(int y ){
+            synchronized (this){
+                this.i= this.i-y;
+            }
+            return this.i;
         }
     }
 
@@ -28,11 +33,13 @@ public class ThreadDemo {
         }
 
 
+        @SneakyThrows
         @Override
         public void run() {
             for (int i = 0 ;i<3;i++){
+                Thread.sleep(10);
                 int origin = demo.getI();
-                System.out.println(Thread.currentThread().getName() + "当前值" + origin + "预测-30的值"+(origin-30)+"实际值"+demo.doIt(30));
+                System.out.println(Thread.currentThread().getName() + "当前值" + origin + "结果值"+demo.doIt(30));
             }
         }
     }
