@@ -51,17 +51,9 @@ public class LockDemo {
         public void run() {
             //---------------获取锁,锁【myLock.lock】必须紧跟try代码块，且unlock要放到finally第一行。
             myLock.lock();
-            try{
-                //处理业务
-                System.out.println(name + "正在操作" + myCount.acctId + "账户" + "金额为" + ioMoney + ",当前金额为:" + myCount.getMoney());
-                myCount.setMoney(myCount.getMoney()+ioMoney);
-                System.out.println(name + "操作" + myCount.acctId + "账户成功，操作的" + "金额为" + ioMoney + ",当前金额为:" + myCount.getMoney());
+            int i = 1/0;
+            myLock.unlock();
 
-            }catch (Exception e){
-
-            }finally {
-                myLock.unlock();
-            }
         }
     }
 
